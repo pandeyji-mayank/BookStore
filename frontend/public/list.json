@@ -2,7 +2,7 @@
     {
         "id": 1,
         "name": "Story book",
-        "title": "lorem*10gjioahg;ao idhga;difh;difha;fdha;s iha;difha;sidfha;fi hdahf;adsifha;sfiha;isdhfa",
+        "title": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque, dolore quae dicta illo, unde nostrum ab voluptatem libero ",
         "price": 0,
         "category": "Free",
         "image": "https://img.freepik.com/free-vector/books-stack-realistic_1284-4735.jpg?semt=sph"
@@ -10,7 +10,7 @@
     {
         "id": 2,
         "name": "Story book",
-        "title": "lorem*10gjioahg;aoidhga;difh;difha;fdha;siha;difha;sidfha;fihdahf;adsifha;sfiha;isdhfa",
+        "title": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque, dolore quae dicta illo, unde nostrum ab voluptatem libero ",
         "price": 0,
         "category": "Free",
         "image": "https://img.freepik.com/free-vector/books-stack-realistic_1284-4735.jpg?semt=sph"
@@ -52,7 +52,7 @@
         "name": "Story book",
         "title": "lorem*10gjioahg;aoidhga;difh;difha;fdha;siha;difha;sidfha;fihdahf;adsifha;sfiha;isdhfa",
         "price": 0,
-        "category": "Free",
+        "category": "NotFree",
         "image": "https://img.freepik.com/free-vector/books-stack-realistic_1284-4735.jpg?semt=sph"
     }
 ]
