@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -21,8 +21,13 @@ function Login() {
                 if (res.data) {
                     toast.success("Login Successfull");
                     // alert("Login Successfull");
+                    document.getElementById("my_modal_3").close()
+                    setTimeout(() => {
+                        localStorage.setItem("User", JSON.stringify(res.data.user));
+                        window.location.reload();
+                    }, 1000)
+
                 }
-                localStorage.setItem("User", JSON.stringify(res.data.user));
             })
             .catch((err) => {
                 console.log(err);
@@ -41,7 +46,7 @@ function Login() {
                         onSubmit={handleSubmit(onSubmit)}
                     >
                         {/* if there is a button in form, it will close the modal */}
-                        <Link to='/' className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" >✕</Link>
+                        <Link to='/' className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById("my_modal_3").close()} >✕</Link>
                         <h3 className="font-bold text-lg">Login!</h3>
                         <div className='mt-4 space-y-2'>
                             <span>Email</span>
