@@ -1,31 +1,41 @@
 import express from 'express';
+import { PORT, mongoDBURL } from './config.js';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import booksRoute from './routes/booksRoute.js';
 import cors from 'cors';
-import bookRoute from './route/book.route.js';
-import userRoute from './route/user.route.js';
 
-const app = express()
+const app = express();
 
-app.use(cors());
+// Middleware for parsing request body
 app.use(express.json());
 
-dotenv.config();
-const PORT = process.env.PORT || 4000;
-const MongoDBURI = process.env.MongoDBURI;
+// Middleware for handling CORS POLICY
+// Option 1: Allow All Origins with Default of cors(*)
+app.use(cors());
+// Option 2: Allow Custom Origins
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type'],
+//   })
+// );
 
-try {
-    mongoose.connect(MongoDBURI, {
+app.get('/', (request, response) => {
+  console.log(request);
+  return response.status(234).send('Welcome To MERN Stack Tutorial');
+});
+
+app.use('/books', booksRoute);
+
+mongoose
+  .connect(mongoDBURL)
+  .then(() => {
+    console.log('App connected to database');
+    app.listen(PORT, () => {
+      console.log(`App is listening to port: ${PORT}`);
     });
-    console.log("connected to MongoDB");
-} catch (error) {
-    console.log("Eror : ", error);
-}
-
-//defining routes
-app.use('/book', bookRoute);
-app.use('/user', userRoute);
-
-app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}`)
-})
+  })
+  .catch((error) => {
+    console.log(error);
+  });
