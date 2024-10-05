@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
-
+import { FaFileDownload } from "react-icons/fa";
 const BooksTable = ({ books }) => {
+  console.log(books);
   return (
     <table className='w-full border-separate border-spacing-2'>
       <thead>
@@ -42,8 +43,8 @@ const BooksTable = ({ books }) => {
                 <Link to={`/books/edit/${book._id}`}>
                   <AiOutlineEdit className='text-2xl text-yellow-600' />
                 </Link>
-                <Link to={`/books/delete/${book._id}`}>
-                  <MdOutlineDelete className='text-2xl text-red-600' />
+                <Link to={`http://localhost:5555/${book.filePath}`} >
+                  <FaFileDownload className='text-2xl text-red-600 cursor-pointer' />
                 </Link>
               </div>
             </td>

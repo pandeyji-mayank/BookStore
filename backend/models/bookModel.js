@@ -14,6 +14,10 @@ const bookSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    filePath: {
+      type: String,
+      default: null,
+    }
   },
   {
     timestamps: true,

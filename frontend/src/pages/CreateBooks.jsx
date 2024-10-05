@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 import axios from 'axios';
@@ -9,19 +9,57 @@ const CreateBooks = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [publishYear, setPublishYear] = useState('');
+  const [file, setFile] = useState(null); // Add file state
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-
-  const handleSaveBook = () => {
-    const data = {
-      title,
-      author,
-      publishYear,
+  useEffect(() => {
+    const verifyToken = async () => {
+      const token = JSON.parse(localStorage.getItem('login'))?.token;
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      try {
+        const res = await axios.post(
+          'http://localhost:5555/verify',
+          {},  // Empty body (if no data needs to be sent)
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,  // Authorization header with token
+            },
+          }
+        );
+        console.log(res.data);  // Handle response
+      } catch (error) {
+        console.error('Error during token verification:', error);
+        navigate('/login');  // Redirect to login on failure
+      }
     };
+    verifyToken();
+  }, []);
+
+  // Handle file change
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
+
+  // Modify to handle form data and file upload
+  const handleSaveBook = () => {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('author', author);
+    formData.append('publishYear', publishYear);
+    formData.append('file', file); // Append the file
+
     setLoading(true);
     axios
-      .post('http://localhost:5555/books', data)
+      .post('http://localhost:5555/books', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Required for file upload
+        },
+      })
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Created successfully', { variant: 'success' });
@@ -29,7 +67,6 @@ const CreateBooks = () => {
       })
       .catch((error) => {
         setLoading(false);
-        // alert('An error happened. Please Chack console');
         enqueueSnackbar('Error', { variant: 'error' });
         console.log(error);
       });
@@ -68,12 +105,20 @@ const CreateBooks = () => {
             className='border-2 border-gray-500 px-4 py-2  w-full '
           />
         </div>
+        <div className='my-4'>
+          <label className='text-xl mr-4 text-gray-500'>Upload File</label>
+          <input
+            type='file'
+            onChange={handleFileChange}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
         <button className='p-2 bg-sky-300 m-8' onClick={handleSaveBook}>
           Save
         </button>
       </div>
     </div>
   );
-}
+};
 
-export default CreateBooks
+export default CreateBooks;

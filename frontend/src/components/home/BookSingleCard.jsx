@@ -3,7 +3,8 @@ import { PiBookOpenTextLight } from 'react-icons/pi';
 import { BiUserCircle, BiShow } from 'react-icons/bi';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
-import { MdOutlineDelete } from 'react-icons/md';
+import { MdOutlineDelete, } from 'react-icons/md';
+import { FaFileDownload } from "react-icons/fa";
 import { useState } from 'react';
 import BookModal from './BookModal';
 
@@ -35,9 +36,9 @@ const BookSingleCard = ({ book }) => {
         <Link to={`/books/edit/${book._id}`}>
           <AiOutlineEdit className='text-2xl text-yellow-600 hover:text-black' />
         </Link>
-        <Link to={`/books/delete/${book._id}`}>
+        <a to={`/books/delete/${book._id}`}>
           <MdOutlineDelete className='text-2xl text-red-600 hover:text-black' />
-        </Link>
+        </a>
       </div>
       {showModal && (
         <BookModal book={book} onClose={() => setShowModal(false)} />

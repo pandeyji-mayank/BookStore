@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
@@ -12,6 +12,7 @@ const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState('table');
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -25,6 +26,29 @@ const Home = () => {
         console.log(error);
         setLoading(false);
       });
+    const verifyToken = async () => {
+      const token = JSON.parse(localStorage.getItem('login'))?.token;
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      try {
+        const res = await axios.post(
+          'http://localhost:5555/verify',
+          {},  // Empty body (if no data needs to be sent)
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,  // Authorization header with token
+            },
+          }
+        );
+        console.log(res.data);  // Handle response
+      } catch (error) {
+        console.error('Error during token verification:', error);
+        navigate('/login');  // Redirect to login on failure
+      }
+    };
+    verifyToken();
   }, []);
 
   return (
